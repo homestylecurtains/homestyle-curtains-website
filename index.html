@@ -711,12 +711,12 @@ async function uploadLogo(){
   const path="logo/"+Date.now()+"_"+file.name;
 
   const {error}=await supabaseClient.storage
-    .from("CURTAIN-IMAGES").upload(path,file,{upsert:true});
+    .from("curtain-images").upload(path,file,{upsert:true});
 
   if(error) return alert(error.message);
 
   const {data}=supabaseClient.storage
-    .from("CURTAIN-IMAGES").getPublicUrl(path);
+    .from("curtain-images").getPublicUrl(path);
 
   document.getElementById("siteLogo").src=data.publicUrl;
   alert("Logo uploaded successfully!");
@@ -742,7 +742,7 @@ async function uploadPhotos(){
     const path="gallery/"+Date.now()+"_"+file.name;
 
     const {error}=await supabaseClient.storage
-      .from("CURTAIN-IMAGES").upload(path,file);
+      .from("curtain-images").upload(path,file);
 
     if(error){
       status.textContent="Upload failed: "+error.message;
@@ -750,7 +750,7 @@ async function uploadPhotos(){
     }
 
     const {data}=supabaseClient.storage
-      .from("CURTAIN-IMAGES").getPublicUrl(path);
+      .from("curtain-images").getPublicUrl(path);
 
     const {error:dbError}=await supabaseClient
       .from("gallery").insert({
@@ -813,7 +813,7 @@ async function deletePhoto(id){
   if(!photo) return;
 
   if(photo.storage_path){
-    await supabaseClient.storage.from("CURTAIN-IMAGES")
+    await supabaseClient.storage.from("curtain-images")
       .remove([photo.storage_path]);
   }
 
